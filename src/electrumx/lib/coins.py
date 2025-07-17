@@ -4128,3 +4128,47 @@ class FerriteTestnet(Ferrite):
         'enode2.ferritecoin.org s t',
         'enode3.ferritecoin.org s t',
     ]
+
+
+class Jumpcoin(Coin):
+    NAME = "Jumpcoin"
+    SHORTNAME = "JMP"
+    NET = "mainnet"
+    XPUB_VERBYTES = bytes.fromhex("0488b21e")
+    XPRV_VERBYTES = bytes.fromhex("0488ade4")
+    P2PKH_VERBYTE = bytes.fromhex("2b")  # 43 decimal -> 'J' addresses
+    P2SH_VERBYTES = (bytes.fromhex("2c"),)  # 44 decimal
+    WIF_BYTE = bytes.fromhex("ab")  # 171 decimal
+    GENESIS_HASH = ('00000fa4edca746cef5d3e903ca8691f'
+                    '3fa9602e6055e351a53be2e109f9a4e3')
+    DAEMON = daemon.LegacyRPCDaemon
+    TX_COUNT = 1000
+    TX_COUNT_HEIGHT = 500
+    TX_PER_BLOCK = 5
+    RPC_PORT = 31240
+    REORG_LIMIT = 500
+    ESTIMATE_FEE = 0.0001
+    RELAY_FEE = 0.0001
+    
+    @classmethod
+    def header_hash(cls, header):
+        """Jumpcoin uses SHA256d for block hashing"""
+        from .hash import double_sha256
+        return double_sha256(header)
+
+
+class JumpcoinTestnet(Jumpcoin):
+    SHORTNAME = "TJMP"
+    NET = "testnet"
+    XPUB_VERBYTES = bytes.fromhex("043587cf")
+    XPRV_VERBYTES = bytes.fromhex("04358394")
+    P2PKH_VERBYTE = bytes.fromhex("6f")  # 111 decimal
+    P2SH_VERBYTES = (bytes.fromhex("c4"),)  # 196 decimal
+    WIF_BYTE = bytes.fromhex("ef")  # 239 decimal
+    GENESIS_HASH = ('000054c3da7d354fe66c0c06631682051'
+                    '282f40f8ee0b0815c5e120766112f6a')
+    TX_COUNT = 100
+    TX_COUNT_HEIGHT = 50
+    TX_PER_BLOCK = 2
+    RPC_PORT = 25715
+    REORG_LIMIT = 200
